@@ -68,7 +68,7 @@ export function Login() {
             <Input
               id="email"
               type="email"
-              placeholder="m@example.com"
+              placeholder="email@exemplo.com"
               required
               {...register("email")}
             />

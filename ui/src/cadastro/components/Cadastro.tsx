@@ -29,9 +29,9 @@ export function Cadastro() {
   const { toast } = useToast();
   const router = useRouter();
 
-  const [tipoUsuario, setTipoUsuario] = useState<"contratante" | "prestador">(
-    "contratante"
-  );
+  const [tipoUsuario, setTipoUsuario] = useState<
+    "contratante" | "prestador" | "locador"
+  >("contratante");
 
   const {
     register,
@@ -65,7 +65,7 @@ export function Cadastro() {
   }, [error]);
 
   return (
-    <Card className="mx-auto max-w-sm p-4">
+    <Card className="mx-auto max-w-sm px-4">
       <CardHeader>
         <CardTitle className="text-2xl text-center">Cadastro</CardTitle>
         <CardDescription>
@@ -95,7 +95,7 @@ export function Cadastro() {
             <Input
               id="email"
               type="email"
-              placeholder="m@example.com"
+              placeholder="email@exemplo.com"
               required
               {...register("email")}
               className="bg-gray-300 placeholder:text-black/80"
@@ -142,9 +142,9 @@ export function Cadastro() {
           <Label>Tipo de usuário</Label>
           <RadioGroup
             defaultValue="contratante"
-            className="flex justify-between"
+            className="flex justify-between mb-1"
             onValueChange={(value) =>
-              setTipoUsuario(value as "contratante" | "prestador")
+              setTipoUsuario(value as "contratante" | "prestador" | "locador")
             }
           >
             <div className="flex items-center space-x-2">
@@ -154,6 +154,10 @@ export function Cadastro() {
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="prestador" id="prestador" />
               <Label htmlFor="prestador">Prestador</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="locador" id="locador" />
+              <Label htmlFor="locador">Locador</Label>
             </div>
           </RadioGroup>
           <Button className="w-full" onClick={handleSubmit(handleCadastro)}>

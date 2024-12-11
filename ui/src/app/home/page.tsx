@@ -1,11 +1,15 @@
 "use client";
 
 import { useAuth } from "@/common/hooks/useAuth";
+import { Home } from "@/home/components/Home";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import ScaleLoader from "react-spinners/ClipLoader";
 
 export default function Page() {
   const router = useRouter();
+
+  const [loading, setLoading] = useState(true);
 
   const { checkToken } = useAuth();
 
@@ -32,11 +36,15 @@ export default function Page() {
       .catch(() => {
         router.push("/login");
       });
+    setLoading(false);
   }, []);
 
-  return (
-    <div className="flex h-screen w-full items-center justify-center px-4 bg-black/30">
-      <h1>Olá, {nomeUsuario}</h1>
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen w-screen">
+        <ScaleLoader loading={loading} size={35} color="#0000FF" />
+      </div>
+    );
+
+  return <Home nomeUsuario={nomeUsuario} />;
 }

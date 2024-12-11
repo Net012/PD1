@@ -16,13 +16,13 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   entities: ['dist/src/core/infra/models/*.model{.ts,.js}', UsuarioModel],
   migrations: ['dist/src/migrations/*{.ts,.js}'],
   synchronize: true,
-  logging: true,
+  logging: false,
 };
 
 export const AppDataSource = new DataSource({
   ...typeOrmConfig,
   type: 'postgres',
-  logging: true,
+  logging: false,
   logger: 'advanced-console',
 });
 
@@ -32,6 +32,6 @@ export default {
   cli: {
     migrationsDir: 'src/migrations',
   },
-  logging: true,
+  logging: false,
   logger: 'advanced-console',
 };

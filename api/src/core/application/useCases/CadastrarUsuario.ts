@@ -28,8 +28,6 @@ export class CadastrarUsuarioUseCase {
     const senha = await this.criptografiaService.criptografarSenha(props.senha);
 
     if (!('senha' in senha)) {
-      console.log('senha');
-
       return senha;
     }
 
@@ -41,15 +39,12 @@ export class CadastrarUsuarioUseCase {
     });
 
     if (!(usuario instanceof Usuario)) {
-      console.log('usuario');
       return usuario;
     }
 
     const salvar = await this.usuarioRepository.save(usuario);
 
     if (!('success' in salvar)) {
-      console.log('salvar');
-
       return salvar;
     }
 

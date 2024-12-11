@@ -35,6 +35,15 @@ export class AxiosAPI {
     let codigo = 0;
     let mensagem = "Erro desconhecido";
 
+    const errorData = error.response?.data as { error: string };
+
+    if (errorData) {
+      return {
+        codigo,
+        mensagem: error ? errorData.error : "Erro desconhecido",
+      };
+    }
+
     if (error.response) {
       codigo = error.response.status;
       switch (error.response.status) {

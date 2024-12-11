@@ -23,15 +23,19 @@ import {
 } from "../schemas/Cadastro.schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "react-feather";
 
 export function Cadastro() {
+  const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [mostrarConfirmaSenha, setMostrarConfirmaSenha] = useState(false);
+
   const { cadastrar, error } = useCadastro();
   const { toast } = useToast();
   const router = useRouter();
 
-  const [tipoUsuario, setTipoUsuario] = useState<
-    "contratante" | "prestador" | "locador"
-  >("contratante");
+  const [tipoUsuario, setTipoUsuario] = useState<"presatador" | "consumidor">(
+    "consumidor"
+  );
 
   const {
     register,
@@ -51,6 +55,11 @@ export function Cadastro() {
     });
 
     if (response?.sucesso) {
+      toast({
+        title: "Sucesso!",
+        description: "Cadastro efetuado com sucesso.",
+        className: "bg-green-500 border-green-500 text-white font-bold",
+      });
       router.push("/login");
     }
   };
@@ -60,118 +69,138 @@ export function Cadastro() {
     toast({
       title: error.titulo,
       description: error.descricao,
-      className: "bg-yellow-500 border-yellow-500 text-white font-bold",
+      className: "bg-red-500 border-none text-white font-bold",
     });
   }, [error]);
 
   return (
-    <Card className="mx-auto max-w-sm px-4">
-      <CardHeader>
-        <CardTitle className="text-2xl text-center">Cadastro</CardTitle>
-        <CardDescription>
-          Digite seus dados para criar uma conta.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="nome">Nome</Label>
-            <Input
-              id="nome"
-              type="text"
-              placeholder="Nome"
-              required
-              {...register("nome")}
-              className="bg-gray-300 placeholder:text-black/80"
-            />
-            {errors.nome && (
-              <span className="text-red-500 text-xs">
-                {errors.nome.message}
-              </span>
-            )}
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="email@exemplo.com"
-              required
-              {...register("email")}
-              className="bg-gray-300 placeholder:text-black/80"
-            />
-            {errors.email && (
-              <span className="text-red-500 text-xs">
-                {errors.email.message}
-              </span>
-            )}
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="senha">Senha</Label>
-            <Input
-              id="senha"
-              type="password"
-              placeholder="Senha"
-              required
-              {...register("senha")}
-              className="bg-gray-300 placeholder:text-black/80"
-            />
-            {errors.senha && (
-              <span className="text-red-500 text-xs">
-                {errors.senha.message}
-              </span>
-            )}
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="confirmacaoSenha">Confirme sua senha</Label>
-            <Input
-              id="confirmacaoSenha"
-              type="password"
-              placeholder="Confirme sua senha"
-              required
-              {...register("confirmaSenha")}
-              className="bg-gray-300 placeholder:text-black/80"
-            />
-            {errors.confirmaSenha && (
-              <span className="text-red-500 text-xs">
-                {errors.confirmaSenha.message}
-              </span>
-            )}
-          </div>
-
-          <Label>Tipo de usuário</Label>
-          <RadioGroup
-            defaultValue="contratante"
-            className="flex justify-between mb-1"
-            onValueChange={(value) =>
-              setTipoUsuario(value as "contratante" | "prestador" | "locador")
-            }
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="contratante" id="contratante" />
-              <Label htmlFor="contratante">Contratante</Label>
+    <div className="flex items-center justify-center min-h-screen bg-white">
+      <Card className="w-full max-w-md p-6 border-none shadow-none">
+        <CardHeader>
+          <CardTitle className="text-xl text-center font-bold">
+            Faça login para aproveitar mais de nossos serviços!!!
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(handleCadastro)} className="space-y-4">
+            <div className="grid gap-2">
+              <Label htmlFor="nome">Digite seu nome</Label>
+              <Input
+                id="nome"
+                type="text"
+                placeholder="Nome"
+                required
+                {...register("nome")}
+                className="p-2"
+              />
+              {errors.nome && (
+                <span className="text-red-500 text-xs">
+                  {errors.nome.message}
+                </span>
+              )}
             </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="prestador" id="prestador" />
-              <Label htmlFor="prestador">Prestador</Label>
+            <div className="grid gap-2">
+              <Label htmlFor="email">Digite o seu email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="Email"
+                required
+                {...register("email")}
+                className="p-2"
+              />
+              {errors.email && (
+                <span className="text-red-500 text-xs">
+                  {errors.email.message}
+                </span>
+              )}
             </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="locador" id="locador" />
-              <Label htmlFor="locador">Locador</Label>
+            <div className="grid gap-2">
+              <Label htmlFor="senha">Digite sua senha</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={mostrarSenha ? "text" : "password"}
+                  required
+                  placeholder="Digite sua senha"
+                  className="p-2"
+                  {...register("senha")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setMostrarSenha(!mostrarSenha)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none"
+                >
+                  {mostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+              {errors.senha && (
+                <span className="text-red-500 text-xs">
+                  {errors.senha.message}
+                </span>
+              )}
             </div>
-          </RadioGroup>
-          <Button className="w-full" onClick={handleSubmit(handleCadastro)}>
-            Cadastrar
-          </Button>
-        </div>
-        <div className="mt-4 text-center text-sm">
-          Já tem uma conta?{" "}
-          <Link href="/login" className="underline">
-            Login
-          </Link>
-        </div>
-      </CardContent>
-      <Toaster />
-    </Card>
+            <div className="grid gap-2">
+              <Label htmlFor="confirmacaoSenha">Confirme a sua senha</Label>
+              <div className="relative">
+                <Input
+                  id="confirmacaoSenha"
+                  type={mostrarConfirmaSenha ? "text" : "password"}
+                  required
+                  placeholder="Confirme sua senha"
+                  className="p-2"
+                  {...register("confirmaSenha")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setMostrarConfirmaSenha(!mostrarConfirmaSenha)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none"
+                >
+                  {mostrarConfirmaSenha ? (
+                    <EyeOff size={20} />
+                  ) : (
+                    <Eye size={20} />
+                  )}
+                </button>
+              </div>
+              {errors.confirmaSenha && (
+                <span className="text-red-500 text-xs">
+                  {errors.confirmaSenha.message}
+                </span>
+              )}
+            </div>
+            <div className="grid gap-2">
+              <Label>Tipo de conta</Label>
+              <RadioGroup
+                defaultValue="consumidor"
+                className="flex justify-around"
+                onValueChange={(value) =>
+                  setTipoUsuario(value as "presatador" | "consumidor")
+                }
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="prestador" id="prestador" />
+                  <Label htmlFor="prestador">Prestador</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="consumidor" id="consumidor" />
+                  <Label htmlFor="consumidor">Consumidor</Label>
+                </div>
+              </RadioGroup>
+            </div>
+            <Button type="submit" className="w-full bg-black text-white">
+              Cadastrar
+            </Button>
+          </form>
+          <div className="mt-4 text-center text-sm">
+            Já tem uma conta?{" "}
+            <Link className="underline text-blue-600" href="/login">
+              Entrar
+            </Link>
+          </div>
+        </CardContent>
+        <Toaster />
+      </Card>
+    </div>
   );
 }

@@ -1,13 +1,7 @@
 "use client";
 
 import { Button } from "@/common/components/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/common/components/card";
+import { Card, CardContent } from "@/common/components/card";
 import { Input } from "@/common/components/input";
 import { Label } from "@/common/components/label";
 import { Toaster } from "@/common/components/toaster";
@@ -15,16 +9,17 @@ import { useToast } from "@/common/hooks/use-toast";
 import { useLogin } from "@/login/hooks/useLogin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LoginSchema, LoginSchemaTemplate } from "../schemas/Login.schema";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "react-feather";
 
 export function Login() {
+  const [mostrarSenha, setMostrarSenha] = useState(false);
+
   const { login, error } = useLogin();
-
   const router = useRouter();
-
   const { toast } = useToast();
 
   const handleLogin = async (data: LoginSchema) => {
@@ -54,66 +49,83 @@ export function Login() {
   });
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Digite seu email e senha para acessar sua conta.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="email@exemplo.com"
-              required
-              {...register("email")}
-            />
-            {errors.email && (
-              <span className="text-red-500 text-xs">
-                {errors.email.message}
-              </span>
-            )}
-          </div>
-          <div className="grid gap-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Senha</Label>
-              <Link href="#" className="ml-auto inline-block text-sm underline">
+    <div className="flex items-center justify-center min-h-screen bg-white">
+      <Card className="w-full max-w-sm border-none shadow-none">
+        <CardContent className="p-6">
+          <h1 className="text-center text-lg font-bold mb-8">
+            Faça login para aproveitar mais de nossos serviços!!!
+          </h1>
+          <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
+            <div>
+              <Label className="block mb-4" htmlFor="email">
+                Digite o seu email
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="email@exemplo.com"
+                required
+                className="w-full"
+                {...register("email")}
+              />
+              {errors.email && (
+                <span className="text-red-500 text-xs">
+                  {errors.email.message}
+                </span>
+              )}
+            </div>
+            <div>
+              <Label className="block mb-4" htmlFor="password">
+                Digite sua senha
+              </Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={mostrarSenha ? "text" : "password"}
+                  required
+                  placeholder="Digite sua senha"
+                  className="w-full pr-10"
+                  {...register("senha")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setMostrarSenha(!mostrarSenha)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none"
+                >
+                  {mostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+              {errors.senha && (
+                <span className="text-red-500 text-xs">
+                  {errors.senha.message}
+                </span>
+              )}
+              <Link
+                href="#"
+                className="block text-sm text-right text-blue-600 underline mt-4"
+              >
                 Esqueceu a senha?
               </Link>
             </div>
-            <Input
-              id="password"
-              type="password"
-              required
-              placeholder="Digite sua senha"
-              {...register("senha")}
-            />
-            {errors.senha && (
-              <span className="text-red-500 text-xs">
-                {errors.senha.message}
-              </span>
-            )}
+            <div className="w-full flex justify-center">
+              <Button
+                type="submit"
+                className="bg-black text-center text-white py-2 rounded-full w-40 hover:bg-gray-800"
+              >
+                Entrar
+              </Button>
+            </div>
+          </form>
+          <div className="text-center mt-4 text-sm">
+            <Link href="/cadastro">
+              <Button className="w-40 mt-2 border border-black text-black py-2 rounded-full bg-gray-100 hover:bg-gray-100">
+                Cadastrar
+              </Button>
+            </Link>
           </div>
-          <Button
-            type="submit"
-            className="w-full"
-            onClick={handleSubmit(handleLogin)}
-          >
-            Login
-          </Button>
-        </div>
-        <div className="mt-4 text-center text-sm">
-          Não tem uma conta?{" "}
-          <Link href="/cadastro" className="underline">
-            Registre-se
-          </Link>
-        </div>
-      </CardContent>
+        </CardContent>
+      </Card>
       <Toaster />
-    </Card>
+    </div>
   );
 }

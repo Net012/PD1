@@ -75,14 +75,17 @@ export function Cadastro() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-white">
-      <Card className="w-full max-w-md p-6 border-none shadow-none">
+      <Card className="w-full max-w-md p-4 border-none shadow-none">
         <CardHeader>
           <CardTitle className="text-xl text-center font-bold">
             Faça login para aproveitar mais de nossos serviços!!!
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit(handleCadastro)} className="space-y-4">
+        <CardContent className="flex flex-col">
+          <form
+            onSubmit={handleSubmit(handleCadastro)}
+            className="space-y-4 flex flex-col"
+          >
             <div className="grid gap-2">
               <Label htmlFor="nome">Digite seu nome</Label>
               <Input
@@ -188,16 +191,20 @@ export function Cadastro() {
                 </div>
               </RadioGroup>
             </div>
-            <Button type="submit" className="w-full bg-black text-white">
-              Cadastrar
-            </Button>
+            <div className="self-center">
+              <Button
+                type="submit"
+                className="self-center bg-black text-center text-white py-2 rounded-full w-40 hover:bg-gray-800"
+              >
+                Cadastrar
+              </Button>
+            </div>
           </form>
-          <div className="mt-4 text-center text-sm">
-            Já tem uma conta?{" "}
-            <Link className="underline text-blue-600" href="/login">
-              Entrar
-            </Link>
-          </div>
+          <Link href="/login" className="self-center">
+            <Button className="w-40 self-center mt-2 border border-black text-black py-2 rounded-full bg-gray-100 hover:bg-gray-100">
+              Login
+            </Button>
+          </Link>
         </CardContent>
         <Toaster />
       </Card>

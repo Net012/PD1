@@ -1,16 +1,42 @@
+"use client";
+
 import Link from "next/link";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
+
+import { Tabs, TabsList, TabsTrigger } from "./tabs";
+import { useRouter } from "next/navigation";
 
 export const Header = () => {
+  const router = useRouter();
   return (
     <div className="flex flex-row items-center justify-between">
       <h1 className="font-bold">TechEventCreator</h1>
       <div className="w-[120px]">
         <Tabs>
           <TabsList>
-            <TabsTrigger value="palestrantes">Palestrantes</TabsTrigger>
-            <TabsTrigger value="servicos">Serviços</TabsTrigger>
-            <TabsTrigger value="locais">Locais</TabsTrigger>
+            <TabsTrigger
+              onClick={() => {
+                router.push("/buscar");
+              }}
+              value="palestrantes"
+            >
+              Palestrantes
+            </TabsTrigger>
+            <TabsTrigger
+              onClick={() => {
+                router.push("/buscar");
+              }}
+              value="servicos"
+            >
+              Serviços
+            </TabsTrigger>
+            <TabsTrigger
+              onClick={() => {
+                router.push("/buscar");
+              }}
+              value="locais"
+            >
+              Locais
+            </TabsTrigger>
           </TabsList>
         </Tabs>
       </div>

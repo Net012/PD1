@@ -1,6 +1,6 @@
 export const Sobre = () => {
   return (
-    <div className="flex gap-y-12 flex-col justify-center items-center w-[40%] mt-16">
+    <div className="flex gap-y-8 flex-col justify-center items-center w-[40%] mt-16">
       <h1 className="font-bold">Sobre a TechEventCreator</h1>
       <p className="text-center">
         Somos especializados em soluções completas para a criação de eventos

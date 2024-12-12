@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { UsuarioRepositoryImpl } from './infra/repositories/Usuario.repository';
+import { UseCases } from './application';
 import { UsuarioMapper } from './infra/mappers/Usuario.mapper';
-import { UsuarioController } from './usuario.controller';
-import { UseCases } from './application/useCases';
+import { UsuarioRepositoryImpl } from './infra/repositories/Usuario.repository';
 import { CriptografiaServiceImpl } from './infra/services/Criptografia';
+import { UsuarioController } from './usuario.controller';
 
 @Module({
   imports: [],

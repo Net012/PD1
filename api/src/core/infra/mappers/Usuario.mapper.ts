@@ -11,6 +11,7 @@ export class UsuarioMapper {
         email: model.email,
         senha: model.senha,
         tipo: model.tipo,
+        celular: model.celular,
       },
       model.id,
     );
@@ -23,6 +24,7 @@ export class UsuarioMapper {
       email: domain.getEmail(),
       senha: domain.getSenha(),
       tipo: domain.getTipo(),
+      celular: domain.getCelular(),
     });
   }
 }

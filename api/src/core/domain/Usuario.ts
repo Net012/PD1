@@ -1,13 +1,14 @@
 import { BadRequestException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
-export type UsuarioTipo = 'palestrante' | 'prestador' | 'contratante';
+export type UsuarioTipo = 'palestrante';
 
 export interface UsuarioProps {
   nome: string;
   email: string;
   senha: string;
   tipo: UsuarioTipo;
+  celular?: string;
 }
 
 export class Usuario {
@@ -16,6 +17,7 @@ export class Usuario {
   private _email: string;
   private _senha: string;
   private _tipo: UsuarioTipo;
+  private _celular?: string;
 
   private constructor(id?: string) {
     this._id = id || randomUUID();
@@ -36,6 +38,8 @@ export class Usuario {
     if (email instanceof BadRequestException) {
       return email;
     }
+
+    instancia.setCelularUsuario(props.celular);
 
     const senha = instancia.setSenhaUsuario(props.senha);
     if (senha instanceof BadRequestException) {
@@ -64,6 +68,10 @@ export class Usuario {
     }
 
     this._email = email;
+  }
+
+  public setCelularUsuario(celular: string): void {
+    this._celular = celular;
   }
 
   public setSenhaUsuario(senha: string): BadRequestException | void {
@@ -115,6 +123,10 @@ export class Usuario {
 
   public getEmail(): string {
     return this._email;
+  }
+
+  public getCelular(): string {
+    return this._celular;
   }
 
   public getSenha(): string {

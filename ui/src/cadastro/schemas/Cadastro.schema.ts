@@ -22,6 +22,7 @@ export const CadastroSchemaTemplate = z
           "A senha deve conter pelo menos um caractere especial (@, $, !, %, *, ?, &).",
       }),
     confirmaSenha: z.string(),
+    numeroCelular: z.string().optional(),
   })
   .refine((data) => data.senha === data.confirmaSenha, {
     message: "As senhas devem ser iguais.",

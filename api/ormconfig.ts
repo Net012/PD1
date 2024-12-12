@@ -22,7 +22,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
 export const AppDataSource = new DataSource({
   ...typeOrmConfig,
   type: 'postgres',
-  logging: false,
+  logging: true,
   logger: 'advanced-console',
 });
 
@@ -32,6 +32,6 @@ export default {
   cli: {
     migrationsDir: 'src/migrations',
   },
-  logging: false,
+  logging: true,
   logger: 'advanced-console',
 };

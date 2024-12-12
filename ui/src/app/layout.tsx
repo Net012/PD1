@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased flex-1">{children}</body>
     </html>
   );
 }

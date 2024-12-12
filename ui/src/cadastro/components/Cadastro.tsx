@@ -4,26 +4,24 @@ import { Button } from "@/common/components/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@/common/components/card";
 import { Input } from "@/common/components/input";
 import { Label } from "@/common/components/label";
-import { RadioGroup, RadioGroupItem } from "@/common/components/radio-group";
 import { Toaster } from "@/common/components/toaster";
 import { useToast } from "@/common/hooks/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Eye, EyeOff } from "react-feather";
+import { useForm } from "react-hook-form";
 import { useCadastro } from "../hooks/useCadastro";
 import {
   CadastroSchema,
   CadastroSchemaTemplate,
 } from "../schemas/Cadastro.schema";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "react-feather";
 
 export function Cadastro() {
   const [mostrarSenha, setMostrarSenha] = useState(false);
@@ -33,9 +31,7 @@ export function Cadastro() {
   const { toast } = useToast();
   const router = useRouter();
 
-  const [tipoUsuario, setTipoUsuario] = useState<"presatador" | "consumidor">(
-    "consumidor"
-  );
+  const [tipoUsuario, setTipoUsuario] = useState<"prestador">("prestador");
 
   const {
     register,
@@ -173,23 +169,15 @@ export function Cadastro() {
               )}
             </div>
             <div className="grid gap-2">
-              <Label>Tipo de conta</Label>
-              <RadioGroup
-                defaultValue="consumidor"
-                className="flex justify-around"
-                onValueChange={(value) =>
-                  setTipoUsuario(value as "presatador" | "consumidor")
-                }
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="prestador" id="prestador" />
-                  <Label htmlFor="prestador">Prestador</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="consumidor" id="consumidor" />
-                  <Label htmlFor="consumidor">Consumidor</Label>
-                </div>
-              </RadioGroup>
+              <Label htmlFor="numero">Numero para contato</Label>
+              <Input
+                id="numero"
+                type="tel"
+                placeholder="Celular"
+                required
+                {...register("numeroCelular")}
+                className="p-2"
+              />
             </div>
             <div className="self-center">
               <Button

@@ -26,7 +26,7 @@ export function Login() {
     const response = await login(data.email, data.senha);
 
     if (response.sucesso) {
-      router.push("/home");
+      router.push("/buscar");
     }
   };
 

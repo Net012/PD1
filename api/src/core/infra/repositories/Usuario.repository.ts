@@ -94,4 +94,26 @@ export class UsuarioRepositoryImpl implements UsuarioRepository {
       );
     }
   }
+
+  async list(): Promise<
+    Usuario[] | InternalServerErrorException | BadRequestException
+  > {
+    try {
+      const usuarios = await UsuarioModel.find();
+
+      const usuariosDomain = usuarios.map((usuario) => {
+        const domainUsuario = this.usuarioMapper.modelToDomain(usuario);
+        if (domainUsuario instanceof BadRequestException) {
+          throw domainUsuario;
+        }
+        return domainUsuario;
+      });
+
+      return usuariosDomain;
+    } catch (error) {
+      return new InternalServerErrorException(
+        'Erro desconhecido ao listar usuários',
+      );
+    }
+  }
 }

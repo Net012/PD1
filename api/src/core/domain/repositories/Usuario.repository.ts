@@ -29,4 +29,7 @@ export interface UsuarioRepository {
     | InternalServerErrorException
     | BadRequestException
   >;
+  list(): Promise<
+    Usuario[] | InternalServerErrorException | BadRequestException
+  >;
 }
